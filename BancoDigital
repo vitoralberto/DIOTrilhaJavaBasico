@@ -1,0 +1,24 @@
+classDiagram
+    class Banco {
+        +List<Conta> contas
+        +adicionarConta(Conta conta)
+        +removerConta(String numero)
+        +buscarConta(String numero)
+    }
+
+    class Conta {
+        <<abstract>>
+        +String numero
+        +double saldo
+        +sacar(double valor)
+        +depositar(double valor)
+    }
+
+    class ContaCorrente {
+        +taxaManutencao
+        +sacar(double valor)
+        +depositar(double valor)
+    }
+
+    Banco o-- Conta
+    Conta <|-- ContaCorrente
