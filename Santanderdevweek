@@ -1,0 +1,53 @@
+// Modelo
+@Entity
+public class Tarefa {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String titulo;
+    private String descricao;
+    private String status;
+    private LocalDate dataCriacao;
+
+    // Getters e Setters
+}
+
+// Controller
+@RestController
+@RequestMapping("/tarefas")
+public class TarefaController {
+    @Autowired
+    private TarefaService tarefaService;
+
+    @GetMapping
+    public List<Tarefa> listarTarefas() {
+        return tarefaService.listarTarefas();
+    }
+
+    @PostMapping
+    public Tarefa criarTarefa(@RequestBody Tarefa tarefa) {
+        return tarefaService.criarTarefa(tarefa);
+    }
+
+    // Outros endpoints...
+}
+
+// Service
+@Service
+public class TarefaService {
+    @Autowired
+    private TarefaRepository tarefaRepository;
+
+    public List<Tarefa> listarTarefas() {
+        return tarefaRepository.findAll();
+    }
+
+    public Tarefa criarTarefa(Tarefa tarefa) {
+        tarefa.setDataCriacao(LocalDate.now());
+        return tarefaRepository.save(tarefa);
+    }
+
+    // Outros métodos...
+}
+
+// Repository
+public interface TarefaRepository extends JpaRepository<Tarefa, Long> {}
